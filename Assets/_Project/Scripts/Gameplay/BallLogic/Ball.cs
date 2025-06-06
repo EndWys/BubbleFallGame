@@ -8,13 +8,11 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
         [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private Rigidbody _rigidbody;
 
-        private BallColor _color;
-
-        public BallColor Color => _color;
+        public BallColor Color { get; private set; }
 
         public void Initialize(BallColor color)
         {
-            _color = color;
+            Color = color;
             _meshRenderer.material = BallColorService.Instance.GetMaterialForColor(color);
         }
 
@@ -29,15 +27,11 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
             _rigidbody.velocity = velocity;
         }
 
-        public void Stop()
-        {
-            _rigidbody.velocity = Vector3.zero;
-        }
-
-        public void AttachToWall()
+        public void DisablePhysics()
         {
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.isKinematic = true;
+            _rigidbody.useGravity = false;
         }
     }
 }

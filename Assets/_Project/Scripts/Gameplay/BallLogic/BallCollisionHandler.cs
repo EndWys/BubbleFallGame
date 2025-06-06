@@ -10,6 +10,8 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
         public static BallCollisionHandler Instance { get; private set; }
 
         [SerializeField] private WallGrid _wallGrid;
+        [SerializeField] private int _ballsCountForPop = 3;
+        [SerializeField] private int _scoreForBall = 10;
 
         private BallMatchDetector _matchDetector;
         private FloatingBallFinder _floatingBallFinder;
@@ -30,7 +32,7 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
 
             List<Ball> matchedBalls = _matchDetector.FindMatchingGroup(playerBall);
 
-            if (matchedBalls.Count >= 3)
+            if (matchedBalls.Count >= _ballsCountForPop)
             {
                 PopBalls(matchedBalls);
 
@@ -45,7 +47,7 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
             {
                 _wallGrid.RemoveBall(ball);
                 Destroy(ball.gameObject);
-                ScoreManager.Instance.AddPoints(10);
+                ScoreManager.Instance.AddPoints(_scoreForBall);
             }
         }
 
@@ -55,7 +57,7 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
             {
                 _wallGrid.RemoveBall(ball);
                 ball.EnablePhysics();
-                ScoreManager.Instance.AddPoints(10);
+                ScoreManager.Instance.AddPoints(_scoreForBall);
             }
         }
     }

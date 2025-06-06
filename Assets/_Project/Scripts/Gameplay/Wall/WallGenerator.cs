@@ -30,7 +30,7 @@ namespace Assets._Project.Scripts.Gameplay.Wall
                 {
                     
                     float posX = x * _spacing - offsetX;
-                    float posZ = -z * _spacing + 20f;
+                    float posZ = -z * _spacing + _height;
 
                     Vector3 position = new Vector3(posX, 0f, posZ);
                     Ball ball = _ballFactory.SpawnBall(transform.position + position, color);

@@ -12,6 +12,8 @@ namespace Assets._Project.Scripts.Gameplay.Wall
         private Dictionary<Vector2Int, Ball> _grid = new();
         private float _cellSize = 1f;
 
+        public int GridMaxY { get; private set; } = 0;
+
         public void AddBall(Ball ball)
         {
             Vector2Int coords = WorldToGrid(ball.transform.position);
@@ -19,10 +21,13 @@ namespace Assets._Project.Scripts.Gameplay.Wall
             {
                 _grid.Add(coords, ball);
 
-                ball.AttachToWall();
+                ball.DisablePhysics();
                 ball.transform.SetParent(transform);
 
                 ball.gameObject.layer = LayerMask.NameToLayer(GRID_BALL_LAYERNAME);
+
+                if(coords.y > GridMaxY)
+                    GridMaxY = coords.y;
             }
         }
 

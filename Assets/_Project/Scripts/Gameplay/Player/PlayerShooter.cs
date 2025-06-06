@@ -1,4 +1,5 @@
 using Assets._Project.Scripts.Gameplay.BallLogic;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -10,8 +11,10 @@ namespace Assets._Project.Scripts.Gameplay.Player
 
         [SerializeField] private Transform _shootPoint;
         [SerializeField] private BallFactory _ballFactory;
-        [SerializeField] private float _shootForce = 15f;
         [SerializeField] private LineRenderer _trajectoryLine;
+
+        [SerializeField] private float _shootForce = 15f;
+        [SerializeField] private float _newBallSpawnDelay = 1f;
 
         private Camera _mainCamera;
         private Ball _currentBall;
@@ -24,6 +27,7 @@ namespace Assets._Project.Scripts.Gameplay.Player
 
         private void Update()
         {
+            //TODO: Meka a separated class for input
             if (_currentBall == null) return;
 
             if (Input.GetMouseButton(0))
@@ -46,6 +50,7 @@ namespace Assets._Project.Scripts.Gameplay.Player
             _currentBall.gameObject.layer = LayerMask.NameToLayer(PLAYER_BALL_LAYERNAME);
         }
 
+        //TODO: Meka a separated entetiy for trajectory drawing
         private void ShowTrajectory()
         {
             Vector3 mouseWorld = GetMouseWorldPositionOnPlane();
@@ -64,8 +69,15 @@ namespace Assets._Project.Scripts.Gameplay.Player
             _currentBall.SetVelocity(direction * _shootForce);
             _currentBall = null;
 
-            Invoke(nameof(SpawnNewBall), 0.5f);
+            StartCoroutine(SpawnNewBallWithDelay());
         }
+
+        private IEnumerator SpawnNewBallWithDelay()
+        {
+            yield return new WaitForSeconds(_newBallSpawnDelay);
+            SpawnNewBall();
+        }
+
 
         private Vector3 GetMouseWorldPositionOnPlane()
         {

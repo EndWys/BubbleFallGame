@@ -15,7 +15,7 @@ namespace Assets._Project.Scripts.Gameplay.GameManagment
         public void TriggerGameOver()
         {
             Debug.Log("Game Over!");
-            // TODO: UI, переходы, рестарт
+            // TODO: UI
         }
     }
 }
