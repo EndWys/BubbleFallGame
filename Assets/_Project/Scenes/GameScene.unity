@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 229166530}
   - component: {fileID: 229166529}
   - component: {fileID: 229166532}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -652,8 +652,9 @@ GameObject:
   - component: {fileID: 710388952}
   - component: {fileID: 710388951}
   - component: {fileID: 710388953}
+  - component: {fileID: 710388954}
   m_Layer: 0
-  m_Name: WallGenerator
+  m_Name: BallsWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -672,8 +673,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ballFactory: {fileID: 457496556}
+  _wallGrid: {fileID: 710388954}
   _width: 11
-  _height: 15
+  _height: 16
   _spacing: 1
 --- !u!4 &710388952
 Transform:
@@ -684,7 +686,7 @@ Transform:
   m_GameObject: {fileID: 710388950}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 20}
+  m_LocalPosition: {x: 0, y: 0.5, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -702,8 +704,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fe317c8c1c976488ab7e4ae3ada7f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 0.2
-  _stopZ: 0
+  _moveSpeed: 0.25
+  _stopZ: -3
+--- !u!114 &710388954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710388950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76223fca5b226d84bb77999325b6dbc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &712314326
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,6 +749,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &774074588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 774074589}
+  - component: {fileID: 774074590}
+  m_Layer: 0
+  m_Name: BallCollisionHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &774074589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774074588}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &774074590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774074588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efd76ef81d8495847917b0d44ccc02ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _wallGrid: {fileID: 710388954}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1137,10 +1196,11 @@ SceneRoots:
   - {fileID: 281801330}
   - {fileID: 2134215694}
   - {fileID: 457496555}
-  - {fileID: 710388952}
+  - {fileID: 1804930866}
+  - {fileID: 774074589}
   - {fileID: 712314327}
   - {fileID: 229166531}
+  - {fileID: 710388952}
   - {fileID: 1083866787}
   - {fileID: 945774001}
   - {fileID: 1799048343}
-  - {fileID: 1804930866}

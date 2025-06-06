@@ -1,10 +1,13 @@
 using Assets._Project.Scripts.Gameplay.BallLogic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets._Project.Scripts.Gameplay.Player
 {
     public class PlayerShooter : MonoBehaviour
     {
+        private const string PLAYER_BALL_LAYERNAME = "PlayerBall";
+
         [SerializeField] private Transform _shootPoint;
         [SerializeField] private BallFactory _ballFactory;
         [SerializeField] private float _shootForce = 15f;
@@ -36,7 +39,11 @@ namespace Assets._Project.Scripts.Gameplay.Player
 
         private void SpawnNewBall()
         {
-            _currentBall = _ballFactory.SpawnBall(_shootPoint.position, usePhysics: true);
+            BallColor color = BallColorService.Instance.GetRandomColor();
+            _currentBall = _ballFactory.SpawnBall(_shootPoint.position, color);
+            _currentBall.AddComponent<PlayerBallCollisionWatcher>();
+
+            _currentBall.gameObject.layer = LayerMask.NameToLayer(PLAYER_BALL_LAYERNAME);
         }
 
         private void ShowTrajectory()

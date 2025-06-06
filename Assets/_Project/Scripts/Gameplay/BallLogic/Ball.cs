@@ -12,13 +12,10 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
 
         public BallColor Color => _color;
 
-        public void Initialize(BallColor color, bool usePhysics = false)
+        public void Initialize(BallColor color)
         {
             _color = color;
             _meshRenderer.material = BallColorService.Instance.GetMaterialForColor(color);
-
-            _rigidbody.isKinematic = !usePhysics;
-            _rigidbody.useGravity = usePhysics;
         }
 
         public void EnablePhysics()
@@ -35,6 +32,12 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
         public void Stop()
         {
             _rigidbody.velocity = Vector3.zero;
+        }
+
+        public void AttachToWall()
+        {
+            _rigidbody.velocity = Vector3.zero;
+            _rigidbody.isKinematic = true;
         }
     }
 }

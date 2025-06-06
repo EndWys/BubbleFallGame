@@ -7,11 +7,11 @@ namespace Assets._Project.Scripts.Gameplay.Wall
     public class WallGenerator : MonoBehaviour
     {
         [SerializeField] private BallFactory _ballFactory;
+        [SerializeField] private WallGrid _wallGrid;
+
         [SerializeField] private int _width = 10;  // X
         [SerializeField] private int _height = 15; // Z
         [SerializeField] private float _spacing = 1f;
-
-        private List<List<Ball>> _wall = new();
 
         private void Start()
         {
@@ -24,7 +24,8 @@ namespace Assets._Project.Scripts.Gameplay.Wall
 
             for (int z = 0; z < _height; z++)
             {
-                List<Ball> row = new();
+                BallColor color = BallColorService.Instance.GetRandomColor();
+
                 for (int x = 0; x < _width; x++)
                 {
                     
@@ -32,12 +33,10 @@ namespace Assets._Project.Scripts.Gameplay.Wall
                     float posZ = -z * _spacing + 20f;
 
                     Vector3 position = new Vector3(posX, 0f, posZ);
-                    Ball ball = _ballFactory.SpawnBall(transform.position + position);
-                    ball.transform.SetParent(transform);
-                    row.Add(ball);
-                }
+                    Ball ball = _ballFactory.SpawnBall(transform.position + position, color);
 
-                _wall.Add(row);
+                    _wallGrid.AddBall(ball);
+                }
             }
         }
     }

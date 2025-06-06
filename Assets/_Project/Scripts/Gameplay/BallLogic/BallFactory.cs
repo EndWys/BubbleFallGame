@@ -6,11 +6,10 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
     {
         [SerializeField] private Ball _ballPrefab;
 
-        public Ball SpawnBall(Vector3 position, bool usePhysics = false)
+        public Ball SpawnBall(Vector3 position, BallColor color)
         {
-            BallColor color = BallColorService.Instance.GetRandomColor();
             Ball ball = Instantiate(_ballPrefab, position, Quaternion.identity);
-            ball.Initialize(color, usePhysics);
+            ball.Initialize(color);
             return ball;
         }
     }

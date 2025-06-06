@@ -1,0 +1,56 @@
+using Assets._Project.Scripts.Gameplay.Wall;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Assets._Project.Scripts.Gameplay.BallLogic
+{
+    public class BallMatchDetector
+    {
+        private readonly WallGrid _grid;
+        private readonly List<Vector2Int> _directions = new()
+        {
+            Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right
+        };
+
+        public BallMatchDetector(WallGrid grid)
+        {
+            _grid = grid;
+        }
+
+        public List<Ball> FindMatchingGroup(Ball startBall)
+        {
+            List<Ball> result = new();
+            HashSet<Vector2Int> visited = new();
+
+            Vector2Int start = _grid.WorldToGrid(startBall.transform.position);
+            BallColor color = startBall.Color;
+
+            Queue<Vector2Int> queue = new();
+            queue.Enqueue(start);
+
+            while (queue.Count > 0)
+            {
+                Vector2Int current = queue.Dequeue();
+                if (visited.Contains(current)) continue;
+                visited.Add(current);
+
+                Ball ball = _grid.GetBallAt(current);
+                if (ball != null && ball.Color == color)
+                {
+                    result.Add(ball);
+
+                    foreach (var dir in _directions)
+                    {
+                        Vector2Int neighbor = current + dir;
+                        if (!visited.Contains(neighbor) && _grid.Contains(neighbor))
+                        {
+                            queue.Enqueue(neighbor);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+    }
+}
