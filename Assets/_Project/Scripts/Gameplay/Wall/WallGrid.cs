@@ -44,8 +44,10 @@ namespace Assets._Project.Scripts.Gameplay.Wall
             if (!_grid.ContainsKey(gridPos))
             {
                 _grid[gridPos] = ball;
+
                 ball.DisablePhysics();
                 ball.transform.SetParent(transform);
+                ball.transform.localPosition = GridToLocal(gridPos);
                 ball.gameObject.layer = LayerMask.NameToLayer(GRID_BALL_LAYERNAME);
 
                 if(gridPos.y > MaxY)
@@ -108,7 +110,7 @@ namespace Assets._Project.Scripts.Gameplay.Wall
             return new Vector2Int(x, z);
         }
 
-        public Vector3 GridToWorld(Vector2Int gridPos)
+        public Vector3 GridToLocal(Vector2Int gridPos)
         {
             float rowHeight = _cellSize * Mathf.Sqrt(3f) / 2f;
             float xOffset = (gridPos.y % 2 != 0) ? _cellSize / 2f : 0f;
