@@ -1,9 +1,10 @@
+using Assets._Project.Scripts.ObjectPoolSytem;
 using UnityEngine;
 
 namespace Assets._Project.Scripts.Gameplay.BallLogic
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class Ball : MonoBehaviour
+    public class Ball : PoolObject
     {
         [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private Rigidbody _rigidbody;
@@ -24,14 +25,25 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
 
         public void SetVelocity(Vector3 velocity)
         {
+            _rigidbody.isKinematic = false;
             _rigidbody.velocity = velocity;
         }
 
         public void DisablePhysics()
         {
-            _rigidbody.velocity = Vector3.zero;
             _rigidbody.isKinematic = true;
             _rigidbody.useGravity = false;
+        }
+
+        public override void OnGetFromPool()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public override void OnReleaseToPool()
+        {
+            DisablePhysics();
+            gameObject.SetActive(false);
         }
     }
 }

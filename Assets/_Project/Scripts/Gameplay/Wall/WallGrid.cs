@@ -45,8 +45,6 @@ namespace Assets._Project.Scripts.Gameplay.Wall
                 ball.DisablePhysics();
                 ball.transform.SetParent(transform);
                 ball.gameObject.layer = LayerMask.NameToLayer(GRID_BALL_LAYERNAME);
-
-                ball.AddComponent<BallGameFinishTrigger>();
             }
         }
 
