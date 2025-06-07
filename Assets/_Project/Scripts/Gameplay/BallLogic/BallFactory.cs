@@ -9,7 +9,7 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
         public Ball SpawnBall(Vector3 position, BallColor color)
         {
             Ball ball = Instantiate(_ballPrefab, position, Quaternion.identity);
-            ball.Initialize(color);
+            ball.Init(color);
             return ball;
         }
 

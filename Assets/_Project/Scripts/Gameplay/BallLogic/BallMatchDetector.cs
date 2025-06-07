@@ -7,10 +7,6 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
     public class BallMatchDetector
     {
         private readonly WallGrid _grid;
-        private readonly List<Vector2Int> _directions = new()
-        {
-            Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right
-        };
 
         public BallMatchDetector(WallGrid grid)
         {

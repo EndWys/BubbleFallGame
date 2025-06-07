@@ -99,13 +99,13 @@ namespace Assets._Project.Scripts.Gameplay.Wall
 
             int z = Mathf.RoundToInt((_height - gridRlatedPosition.z) / rowHeight);
             float xOffset = (z % 2 != 0) ? _cellSize / 2f : 0f;
-            float xWorld = gridRlatedPosition.x + (_width - 1) * _cellSize / 2f - xOffset;
-            int x = Mathf.RoundToInt(xWorld / _cellSize);
+            float xLocal = gridRlatedPosition.x + (_width - 1) * _cellSize / 2f - xOffset;
+            int x = Mathf.RoundToInt(xLocal / _cellSize);
 
             return new Vector2Int(x, z);
         }
 
-        public Vector3 GridToWorld(Vector2Int gridPos)
+        /*public Vector3 GridToWorld(Vector2Int gridPos)
         {
             float rowHeight = _cellSize * Mathf.Sqrt(3f) / 2f;
             float xOffset = (gridPos.y % 2 != 0) ? _cellSize / 2f : 0f;
@@ -114,6 +114,6 @@ namespace Assets._Project.Scripts.Gameplay.Wall
             float z = -gridPos.y * rowHeight + _height;
 
             return new Vector3(x, 0f, z);
-        }
+        }*/
     }
 }

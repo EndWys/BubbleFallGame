@@ -10,7 +10,7 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
 
         public BallColor Color { get; private set; }
 
-        public void Initialize(BallColor color)
+        public void Init(BallColor color)
         {
             Color = color;
             _meshRenderer.material = BallColorService.Instance.GetMaterialForColor(color);
