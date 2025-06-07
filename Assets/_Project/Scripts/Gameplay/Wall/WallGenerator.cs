@@ -38,6 +38,8 @@ namespace Assets._Project.Scripts.Gameplay.Wall
                 _wallGrid.RemoveBall(ball);
                 _ballFactory.DespawnBall(ball);
             }
+
+            _wallGrid.ResetGrid();
         }
 
         private void GenerateèBaseWall()
@@ -74,8 +76,6 @@ namespace Assets._Project.Scripts.Gameplay.Wall
         {
             if (zPositionOnLastRowGeneration - _cellSize > zWallPosition)
             {
-                Debug.Log("Adding new row");
-
                 _lastRowIndex++;
 
                 GenerateRow(_lastRowIndex);

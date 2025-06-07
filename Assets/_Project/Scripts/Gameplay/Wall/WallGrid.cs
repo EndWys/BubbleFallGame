@@ -38,6 +38,11 @@ namespace Assets._Project.Scripts.Gameplay.Wall
             _width = width;
         }
 
+        public void ResetGrid()
+        {
+            MaxY = 0;
+        }
+
         public void AddBall(Ball ball)
         {
             Vector2Int gridPos = WorldToGrid(ball.transform.position);

@@ -786,7 +786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _wallGenerator: {fileID: 710388951}
-  _moveSpeed: 0.2
+  _moveSpeed: 1
 --- !u!114 &710388954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1336,7 +1336,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2002155782}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 49024b45bd3826d4bbdbbf6d829f41e0, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
