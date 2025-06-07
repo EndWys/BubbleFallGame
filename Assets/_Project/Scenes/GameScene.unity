@@ -1276,7 +1276,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7761629b05ce4347b97eb5ae41bd76f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsGameOver: 0
+  _shooter: {fileID: 1083866786}
+  _wallGenerator: {fileID: 710388951}
+  _wallMover: {fileID: 710388953}
+  _restartDelay: 1
 --- !u!4 &2134215694
 Transform:
   m_ObjectHideFlags: 0
