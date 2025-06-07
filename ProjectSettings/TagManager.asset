@@ -8,13 +8,13 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Environment
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - PlayerBall
+  - GridBall
+  - FallingBall
+  - GameFinish
   - 
   - 
   - 
