@@ -674,9 +674,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ballFactory: {fileID: 457496556}
   _wallGrid: {fileID: 710388954}
-  _width: 11
+  _width: 10
   _height: 16
-  _spacing: 1
+  _cellSize: 1
 --- !u!4 &710388952
 Transform:
   m_ObjectHideFlags: 0
@@ -794,6 +794,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _wallGrid: {fileID: 710388954}
+  _ballsCountForPop: 3
+  _scoreForBall: 10
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,8 +907,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shootPoint: {fileID: 945774001}
   _ballFactory: {fileID: 457496556}
-  _shootForce: 10
   _trajectoryLine: {fileID: 1799048342}
+  _shootForce: 10
+  _newBallSpawnDelay: 1
 --- !u!4 &1083866787
 Transform:
   m_ObjectHideFlags: 0

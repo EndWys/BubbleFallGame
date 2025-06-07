@@ -34,14 +34,13 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
                 if (visited.Contains(current)) continue;
                 visited.Add(current);
 
-                Ball ball = _grid.GetBallAt(current);
+                Ball ball = _grid.GetBall(current);
                 if (ball != null && ball.Color == color)
                 {
                     result.Add(ball);
 
-                    foreach (var dir in _directions)
+                    foreach (var neighbor in _grid.GetNeighbors(current))
                     {
-                        Vector2Int neighbor = current + dir;
                         if (!visited.Contains(neighbor) && _grid.Contains(neighbor))
                         {
                             queue.Enqueue(neighbor);

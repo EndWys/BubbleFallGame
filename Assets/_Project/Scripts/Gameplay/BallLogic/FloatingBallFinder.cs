@@ -7,10 +7,6 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
     public class FloatingBallFinder
     {
         private readonly WallGrid _grid;
-        private readonly List<Vector2Int> _directions = new()
-    {
-        Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right
-    };
 
         public FloatingBallFinder(WallGrid grid)
         {
@@ -26,7 +22,7 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
             foreach (Ball ball in _grid.GetAllBalls())
             {
                 Vector2Int gridPos = _grid.WorldToGrid(ball.transform.position);
-                if (gridPos.y >= _grid.GridMaxY)
+                if (gridPos.y == WallGenerator.MIN_WALL_Y)
                 {
                     queue.Enqueue(gridPos);
                 }
@@ -39,9 +35,8 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
 
                 connected.Add(current);
 
-                foreach (var dir in _directions)
+                foreach (var neighbor in _grid.GetNeighbors(current))
                 {
-                    Vector2Int neighbor = current + dir;
                     if (_grid.Contains(neighbor) && !connected.Contains(neighbor))
                     {
                         queue.Enqueue(neighbor);
