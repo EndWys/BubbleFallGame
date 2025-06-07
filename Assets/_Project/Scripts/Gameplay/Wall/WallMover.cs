@@ -6,16 +6,33 @@ namespace Assets._Project.Scripts.Gameplay.Wall
     public class WallMover : MonoBehaviour
     {
         [SerializeField] private float _moveSpeed = 1f;
-        [SerializeField] private float _stopZ = 0f;
+
+        private Vector3 _starterPosition;
+
+        private bool _canMoveWall = false;
+
+        public void Init()
+        {
+            _starterPosition = transform.position;
+        }
+
+        public void ResetMover()
+        {
+            transform.position = _starterPosition;
+            _canMoveWall = true;
+        }
+
+        public void Stop()
+        {
+            _canMoveWall = false;
+        }
 
         private void Update()
         {
-            transform.position += Vector3.back * _moveSpeed * Time.deltaTime;
+            if (!_canMoveWall)
+                return;
 
-            if (transform.position.z <= _stopZ)
-            {
-                GameOverHandler.Instance.TriggerGameOver();
-            }
+            transform.position += Vector3.back * _moveSpeed * Time.deltaTime;
         }
     }
 }

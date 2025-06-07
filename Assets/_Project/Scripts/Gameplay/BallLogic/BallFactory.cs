@@ -12,5 +12,10 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
             ball.Initialize(color);
             return ball;
         }
+
+        public void DespawnBall(Ball ball)
+        {
+            Destroy(ball.gameObject);
+        }
     }
 }

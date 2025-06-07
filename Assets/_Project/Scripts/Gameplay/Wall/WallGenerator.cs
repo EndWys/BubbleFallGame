@@ -16,11 +16,25 @@ namespace Assets._Project.Scripts.Gameplay.Wall
 
         private float _hexHight = Mathf.Sqrt(3f) / 2f;
 
-        private void Start()
+        public void Init()
         {
             _wallGrid.SetGridSize(_cellSize, _height, _width);
+        }
 
+        public void CreateNewWall()
+        {
             GenerateWall();
+        }
+
+        public void ClearWall()
+        {
+            var balls = _wallGrid.GetAllBalls();
+
+            foreach (var ball in balls)
+            {
+                _wallGrid.RemoveBall(ball);
+                _ballFactory.DespawnBall(ball);
+            }
         }
 
         private void GenerateWall()

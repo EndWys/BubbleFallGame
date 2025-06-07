@@ -19,10 +19,24 @@ namespace Assets._Project.Scripts.Gameplay.Player
         private Camera _mainCamera;
         private Ball _currentBall;
 
-        private void Start()
+        public void Init()
         {
             _mainCamera = Camera.main;
+        }
+
+        public void RespawnPlayerBall()
+        {
             SpawnNewBall();
+        }
+
+        public void DespawnCurrentPlayerBall()
+        {
+            StopAllCoroutines();
+
+            if (_currentBall != null)
+            {
+                _ballFactory.DespawnBall(_currentBall);
+            }
         }
 
         private void Update()
@@ -50,7 +64,7 @@ namespace Assets._Project.Scripts.Gameplay.Player
             _currentBall.gameObject.layer = LayerMask.NameToLayer(PLAYER_BALL_LAYERNAME);
         }
 
-        //TODO: Meka a separated entetiy for trajectory drawing
+        //TODO: Make a separated entetiy for trajectory drawing
         private void ShowTrajectory()
         {
             Vector3 mouseWorld = GetMouseWorldPositionOnPlane();

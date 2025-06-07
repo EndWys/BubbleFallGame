@@ -1,6 +1,7 @@
 using Assets._Project.Scripts.Gameplay.BallLogic;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets._Project.Scripts.Gameplay.Wall
@@ -44,6 +45,8 @@ namespace Assets._Project.Scripts.Gameplay.Wall
                 ball.DisablePhysics();
                 ball.transform.SetParent(transform);
                 ball.gameObject.layer = LayerMask.NameToLayer(GRID_BALL_LAYERNAME);
+
+                ball.AddComponent<BallGameFinishTrigger>();
             }
         }
 
