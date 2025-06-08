@@ -1,4 +1,5 @@
 using Assets._Project.Scripts.Gameplay.BallLogic;
+using Assets._Project.Scripts.Gameplay.Trajectory;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace Assets._Project.Scripts.Gameplay.Player
 
         [SerializeField] private Transform _shootPoint;
         [SerializeField] private BallFactory _ballFactory;
-        [SerializeField] private LineRenderer _trajectoryLine;
+        [SerializeField] private TrajectoryStripDrawer _trajectory;
 
         [SerializeField] private float _shootForce = 15f;
         [SerializeField] private float _newBallSpawnDelay = 1f;
@@ -42,17 +43,23 @@ namespace Assets._Project.Scripts.Gameplay.Player
 
         private void Update()
         {
-            //TODO: Meka a separated class for input
             if (_currentBall == null) return;
 
+            Vector3 mouseWorld = GetMouseWorldPositionOnPlane();
+            Vector3 direction = (mouseWorld - _shootPoint.position);
+
+            direction.y = 0f;
+            direction.Normalize();
+
+            //TODO: Meka a separated class for input
             if (Input.GetMouseButton(0))
             {
-                ShowTrajectory();
+                ShowTrajectory(direction);
             }
 
             if (Input.GetMouseButtonUp(0))
             {
-                ShootBall();
+                ShootBall(direction);
             }
         }
 
@@ -65,24 +72,13 @@ namespace Assets._Project.Scripts.Gameplay.Player
             _currentBall.gameObject.layer = LayerMask.NameToLayer(PLAYER_BALL_LAYERNAME);
         }
 
-        //TODO: Make a separated entetiy for trajectory drawing
-        private void ShowTrajectory()
+        private void ShowTrajectory(Vector3 direction)
         {
-            Vector3 mouseWorld = GetMouseWorldPositionOnPlane();
-            Vector3 direction = (mouseWorld - _shootPoint.position).normalized;
-
-            _trajectoryLine.positionCount = 2;
-            _trajectoryLine.SetPosition(0, _shootPoint.position);
-            _trajectoryLine.SetPosition(1, _shootPoint.position + direction * 10f);
+            _trajectory.DrawTrajectory(_shootPoint.position, direction);
         }
 
-        private void ShootBall()
+        private void ShootBall(Vector3 direction)
         {
-            Debug.Log("Shoot");
-
-            Vector3 mouseWorld = GetMouseWorldPositionOnPlane();
-            Vector3 direction = (mouseWorld - _shootPoint.position).normalized;
-
             _currentBall.SetVelocity(direction * _shootForce);
             _currentBall = null;
 
