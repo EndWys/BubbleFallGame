@@ -61,8 +61,8 @@ namespace Assets._Project.Scripts.Gameplay.GameManagment
 
             ScoreManager.Instance.ResetScore();
 
-            _wallGenerator.CreateNewWall();
             _wallMover.ResetMover();
+            _wallGenerator.CreateNewWall();
             _shooter.RespawnPlayerBall();
 
         }

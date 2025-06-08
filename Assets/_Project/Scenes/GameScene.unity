@@ -756,7 +756,7 @@ MonoBehaviour:
   _ballFactory: {fileID: 457496556}
   _wallGrid: {fileID: 710388954}
   _width: 10
-  _height: 16
+  _height: 20
   _cellSize: 1
 --- !u!4 &710388952
 Transform:
@@ -767,7 +767,7 @@ Transform:
   m_GameObject: {fileID: 710388950}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 20}
+  m_LocalPosition: {x: 0, y: 0.5, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -874,6 +874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efd76ef81d8495847917b0d44ccc02ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ballFactory: {fileID: 457496556}
   _wallGrid: {fileID: 710388954}
   _ballsCountForPop: 3
   _scoreForBall: 10
@@ -1227,7 +1228,7 @@ MonoBehaviour:
   _ballFactory: {fileID: 457496556}
   _trajectory: {fileID: 1799048344}
   _shootForce: 10
-  _shootMaxAngel: 50
+  _shootMaxAngle: 50
   _newBallSpawnDelay: 1
 --- !u!4 &1083866787
 Transform:

@@ -19,13 +19,13 @@ namespace Assets._Project.Scripts.Gameplay.Wall
 
         public void Init()
         {
-            zPositionOnLastRowGeneration = transform.position.z;
-
             _wallGrid.SetGridSize(_cellSize, _height, _width);
         }
 
         public void CreateNewWall()
         {
+            zPositionOnLastRowGeneration = transform.position.z;
+
             GenerateèBaseWall();
         }
 
