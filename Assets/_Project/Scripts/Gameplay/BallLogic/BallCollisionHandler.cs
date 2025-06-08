@@ -9,6 +9,7 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
     {
         public static BallCollisionHandler Instance { get; private set; }
 
+        [SerializeField] private BallFactory _ballFactory;
         [SerializeField] private WallGrid _wallGrid;
         [SerializeField] private int _ballsCountForPop = 3;
         [SerializeField] private int _scoreForBall = 10;
@@ -46,7 +47,7 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
             foreach (var ball in balls)
             {
                 _wallGrid.RemoveBall(ball);
-                Destroy(ball.gameObject);
+                _ballFactory.DespawnBall(ball);
                 ScoreManager.Instance.AddPoints(_scoreForBall);
             }
         }

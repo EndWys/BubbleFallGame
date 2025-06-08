@@ -9,7 +9,7 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
 
         protected override bool _collectionCheck => false;
 
-        protected override int _defaultCapacity => 100;
+        protected override int _defaultCapacity => 2000;
 
         protected override Ball CratePoolObject()
         {
