@@ -7,11 +7,13 @@ namespace Assets._Project.Scripts.Gameplay.Trajectory
     [RequireComponent(typeof(LineRenderer))]
     public class TrajectoryStripDrawer : MonoBehaviour
     {
-        [SerializeField] private int _maxBounces = 5;
-        [SerializeField] private float _maxDistance = 50f;
         [SerializeField] private LayerMask _reflectionMask;
+        [SerializeField] private float _lineWidth = 0.5f;
 
-        [SerializeField] private float _groundY = 0.01f;
+        private float _maxDistance = 50f;
+        private int _maxBounces = 5;
+
+        private float _groundY = 0.01f;
 
         private LineRenderer _lineRenderer;
 
@@ -19,8 +21,8 @@ namespace Assets._Project.Scripts.Gameplay.Trajectory
         {
             _lineRenderer = GetComponent<LineRenderer>();
             _lineRenderer.positionCount = 0;
-            _lineRenderer.startWidth = 0.3f;
-            _lineRenderer.endWidth = 0.3f;
+            _lineRenderer.startWidth = _lineWidth;
+            _lineRenderer.endWidth = _lineWidth;
             _lineRenderer.useWorldSpace = true;
         }
 

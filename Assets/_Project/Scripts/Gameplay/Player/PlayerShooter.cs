@@ -15,6 +15,7 @@ namespace Assets._Project.Scripts.Gameplay.Player
         [SerializeField] private TrajectoryStripDrawer _trajectory;
 
         [SerializeField] private float _shootForce = 15f;
+        [SerializeField] private float _shootMaxAngle = 50f;
         [SerializeField] private float _newBallSpawnDelay = 1f;
 
         private Camera _mainCamera;
@@ -28,6 +29,15 @@ namespace Assets._Project.Scripts.Gameplay.Player
         public void RespawnPlayerBall()
         {
             SpawnNewBall();
+        }
+
+        private void SpawnNewBall()
+        {
+            BallColor color = BallColorService.Instance.GetRandomColor();
+            _currentBall = _ballFactory.SpawnBall(_shootPoint.position, color);
+            _currentBall.AddComponent<PlayerBallCollisionWatcher>();
+
+            _currentBall.gameObject.layer = LayerMask.NameToLayer(PLAYER_BALL_LAYERNAME);
         }
 
         public void DespawnCurrentPlayerBall()
@@ -45,11 +55,7 @@ namespace Assets._Project.Scripts.Gameplay.Player
         {
             if (_currentBall == null) return;
 
-            Vector3 mouseWorld = GetMouseWorldPositionOnPlane();
-            Vector3 direction = (mouseWorld - _shootPoint.position);
-
-            direction.y = 0f;
-            direction.Normalize();
+            Vector3 direction = GetBallShootDirection();
 
             //TODO: Meka a separated class for input
             if (Input.GetMouseButton(0))
@@ -60,21 +66,18 @@ namespace Assets._Project.Scripts.Gameplay.Player
             if (Input.GetMouseButtonUp(0))
             {
                 ShootBall(direction);
+                HideTrajectory();
             }
-        }
-
-        private void SpawnNewBall()
-        {
-            BallColor color = BallColorService.Instance.GetRandomColor();
-            _currentBall = _ballFactory.SpawnBall(_shootPoint.position, color);
-            _currentBall.AddComponent<PlayerBallCollisionWatcher>();
-
-            _currentBall.gameObject.layer = LayerMask.NameToLayer(PLAYER_BALL_LAYERNAME);
         }
 
         private void ShowTrajectory(Vector3 direction)
         {
             _trajectory.DrawTrajectory(_shootPoint.position, direction);
+        }
+
+        private void HideTrajectory()
+        {
+            _trajectory.Clear();
         }
 
         private void ShootBall(Vector3 direction)
@@ -91,6 +94,19 @@ namespace Assets._Project.Scripts.Gameplay.Player
             SpawnNewBall();
         }
 
+        private Vector3 GetBallShootDirection()
+        {
+            Vector3 mouseWorld = GetMouseWorldPositionOnPlane();
+            Vector3 direction = mouseWorld - _shootPoint.position;
+            direction.y = 0f;
+
+            float angle = Vector3.SignedAngle(Vector3.forward, direction, Vector3.up);
+            angle = Mathf.Clamp(angle, -_shootMaxAngle, _shootMaxAngle);
+
+            Vector3 limitedDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
+
+            return limitedDirection;
+        }
 
         private Vector3 GetMouseWorldPositionOnPlane()
         {
