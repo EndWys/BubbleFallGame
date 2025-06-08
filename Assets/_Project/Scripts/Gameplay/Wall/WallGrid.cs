@@ -29,11 +29,18 @@ namespace Assets._Project.Scripts.Gameplay.Wall
 
         private readonly Dictionary<Vector2Int, Ball> _grid = new();
 
+        public int MaxY { get; private set; } = 0;
+
         public void SetGridSize(float cellSize, float height, float width)
         {
             _cellSize = cellSize;
             _height = height;
             _width = width;
+        }
+
+        public void ResetGrid()
+        {
+            MaxY = 0;
         }
 
         public void AddBall(Ball ball)
@@ -42,11 +49,14 @@ namespace Assets._Project.Scripts.Gameplay.Wall
             if (!_grid.ContainsKey(gridPos))
             {
                 _grid[gridPos] = ball;
+
                 ball.DisablePhysics();
                 ball.transform.SetParent(transform);
+                ball.transform.localPosition = GridToLocal(gridPos);
                 ball.gameObject.layer = LayerMask.NameToLayer(GRID_BALL_LAYERNAME);
 
-                ball.AddComponent<BallGameFinishTrigger>();
+                if(gridPos.y > MaxY)
+                    MaxY = gridPos.y;
             }
         }
 
@@ -97,7 +107,7 @@ namespace Assets._Project.Scripts.Gameplay.Wall
 
             float rowHeight = _cellSize * Mathf.Sqrt(3f) / 2f;
 
-            int z = Mathf.RoundToInt((_height - gridRlatedPosition.z) / rowHeight);
+            int z = Mathf.RoundToInt(gridRlatedPosition.z / rowHeight);
             float xOffset = (z % 2 != 0) ? _cellSize / 2f : 0f;
             float xLocal = gridRlatedPosition.x + (_width - 1) * _cellSize / 2f - xOffset;
             int x = Mathf.RoundToInt(xLocal / _cellSize);
@@ -105,15 +115,15 @@ namespace Assets._Project.Scripts.Gameplay.Wall
             return new Vector2Int(x, z);
         }
 
-        /*public Vector3 GridToWorld(Vector2Int gridPos)
+        public Vector3 GridToLocal(Vector2Int gridPos)
         {
             float rowHeight = _cellSize * Mathf.Sqrt(3f) / 2f;
             float xOffset = (gridPos.y % 2 != 0) ? _cellSize / 2f : 0f;
 
             float x = gridPos.x * _cellSize - (_width - 1) * _cellSize / 2f + xOffset;
-            float z = -gridPos.y * rowHeight + _height;
+            float z = gridPos.y * rowHeight;
 
             return new Vector3(x, 0f, z);
-        }*/
+        }
     }
 }

@@ -36,6 +36,7 @@ namespace Assets._Project.Scripts.Gameplay.Player
             if (_currentBall != null)
             {
                 _ballFactory.DespawnBall(_currentBall);
+                _currentBall = null;
             }
         }
 
@@ -77,6 +78,8 @@ namespace Assets._Project.Scripts.Gameplay.Player
 
         private void ShootBall()
         {
+            Debug.Log("Shoot");
+
             Vector3 mouseWorld = GetMouseWorldPositionOnPlane();
             Vector3 direction = (mouseWorld - _shootPoint.position).normalized;
 

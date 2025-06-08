@@ -5,6 +5,7 @@ namespace Assets._Project.Scripts.Gameplay.Wall
 {
     public class WallMover : MonoBehaviour
     {
+        [SerializeField] private WallGenerator _wallGenerator;
         [SerializeField] private float _moveSpeed = 1f;
 
         private Vector3 _starterPosition;
@@ -33,6 +34,8 @@ namespace Assets._Project.Scripts.Gameplay.Wall
                 return;
 
             transform.position += Vector3.back * _moveSpeed * Time.deltaTime;
+
+            _wallGenerator.GenerateRowsIfNeeded(transform.position.z);
         }
     }
 }

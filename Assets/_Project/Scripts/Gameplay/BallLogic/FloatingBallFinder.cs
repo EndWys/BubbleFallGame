@@ -22,7 +22,7 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
             foreach (Ball ball in _grid.GetAllBalls())
             {
                 Vector2Int gridPos = _grid.WorldToGrid(ball.transform.position);
-                if (gridPos.y == WallGenerator.MIN_WALL_Y)
+                if (gridPos.y >= _grid.MaxY)
                 {
                     queue.Enqueue(gridPos);
                 }
