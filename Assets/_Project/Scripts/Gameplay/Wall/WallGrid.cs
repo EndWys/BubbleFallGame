@@ -2,14 +2,12 @@ using Assets._Project.Scripts.Gameplay.BallLogic;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Assets._Project.Scripts.Gameplay.Wall
 {
     public class WallGrid
     {
-        private const string GRID_BALL_LAYERNAME = "GridBall";
-        private const string FALLING_BALL_LAYERNAME = "FallingBall";
-
         private static readonly Vector2Int[] EvenRowDirections =
         {
             new(1, 0), new(0, 1), new(-1, 1),
@@ -56,10 +54,7 @@ namespace Assets._Project.Scripts.Gameplay.Wall
             {
                 _grid[gridPos] = ball;
 
-                ball.DisablePhysics();
-                ball.transform.SetParent(_gridRoot);
-                ball.transform.localPosition = GridToLocal(gridPos);
-                ball.gameObject.layer = LayerMask.NameToLayer(GRID_BALL_LAYERNAME);
+                ball.Attach(_gridRoot, GridToWorld(gridPos));
 
                 if(gridPos.y > MaxY)
                     MaxY = gridPos.y;
@@ -72,8 +67,6 @@ namespace Assets._Project.Scripts.Gameplay.Wall
             if (_grid.ContainsKey(gridPos))
             {
                 _grid.Remove(gridPos);
-                ball.transform.SetParent(null);
-                ball.gameObject.layer = LayerMask.NameToLayer(FALLING_BALL_LAYERNAME);
             }
         }
 
@@ -121,7 +114,7 @@ namespace Assets._Project.Scripts.Gameplay.Wall
             return new Vector2Int(x, z);
         }
 
-        public Vector3 GridToLocal(Vector2Int gridPos)
+        public Vector3 GridToWorld(Vector2Int gridPos)
         {
             float rowHeight = _cellSize * Mathf.Sqrt(3f) / 2f;
             float xOffset = (gridPos.y % 2 != 0) ? _cellSize / 2f : 0f;
@@ -129,7 +122,7 @@ namespace Assets._Project.Scripts.Gameplay.Wall
             float x = gridPos.x * _cellSize - (_width - 1) * _cellSize / 2f + xOffset;
             float z = gridPos.y * rowHeight;
 
-            return new Vector3(x, 0f, z);
+            return _gridRoot.TransformPoint(new Vector3(x, 0f, z));
         }
     }
 }

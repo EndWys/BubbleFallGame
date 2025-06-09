@@ -1,5 +1,7 @@
+using Assets._Project.Scripts.Gameplay.Player;
 using Assets._Project.Scripts.ObjectPoolSytem;
 using Assets._Project.Scripts.ServiceLocatorSystem;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets._Project.Scripts.Gameplay.BallLogic
@@ -7,8 +9,14 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
     [RequireComponent(typeof(Rigidbody))]
     public class Ball : PoolObject
     {
+        private const string GRID_BALL_LAYERNAME = "GridBall";
+        private const string FALLING_BALL_LAYERNAME = "FallingBall";
+        private const string PLAYER_BALL_LAYERNAME = "PlayerBall";
+
         [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private Rigidbody _rigidbody;
+
+        [SerializeField] private BallTweenAnimator _tweenAnimator;
 
         public BallColor Color { get; private set; }
 
@@ -16,12 +24,16 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
         {
             Color = color;
             _meshRenderer.material = material;
+
+            _tweenAnimator.ResetState();
         }
 
-        public void EnablePhysics()
+        public void Spawn()
         {
-            _rigidbody.isKinematic = false;
-            _rigidbody.useGravity = true;
+            gameObject.AddComponent<PlayerBallCollisionWatcher>();
+            gameObject.layer = LayerMask.NameToLayer(PLAYER_BALL_LAYERNAME);
+
+            _tweenAnimator.PlaySpawnAnimation();
         }
 
         public void SetVelocity(Vector3 velocity)
@@ -30,10 +42,40 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
             _rigidbody.velocity = velocity;
         }
 
-        public void DisablePhysics()
+        public void StartFalling()
+        {
+            EnablePhysics();
+            transform.SetParent(null);
+            gameObject.layer = LayerMask.NameToLayer(FALLING_BALL_LAYERNAME);
+
+            _tweenAnimator.PlayPreFallAnimation();
+        }
+
+        private void EnablePhysics()
+        {
+            _rigidbody.isKinematic = false;
+            _rigidbody.useGravity = true;
+        }
+
+        public void Attach(Transform parent, Vector3 position)
+        {
+            DisablePhysics();
+            transform.parent = parent;
+            transform.position = position;
+            gameObject.layer = LayerMask.NameToLayer(GRID_BALL_LAYERNAME);
+
+            _tweenAnimator.PlayAttachAnimation();
+        }
+
+        private void DisablePhysics()
         {
             _rigidbody.isKinematic = true;
             _rigidbody.useGravity = false;
+        }
+
+        public async UniTask Pop()
+        {
+            await _tweenAnimator.PlayPopAnimation();
         }
 
         public override void OnGetFromPool()

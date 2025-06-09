@@ -10,8 +10,6 @@ namespace Assets._Project.Scripts.Gameplay.Player
 {
     public class PlayerShooter : MonoBehaviour
     {
-        private const string PLAYER_BALL_LAYERNAME = "PlayerBall";
-
         [SerializeField] private Transform _shootPoint;
         [SerializeField] private TrajectoryStripDrawer _trajectory;
 
@@ -79,9 +77,7 @@ namespace Assets._Project.Scripts.Gameplay.Player
         private void SpawnNewBall()
         {
             _currentBall = _ballFactory.SpawnBall(_shootPoint.position);
-            _currentBall.AddComponent<PlayerBallCollisionWatcher>();
-
-            _currentBall.gameObject.layer = LayerMask.NameToLayer(PLAYER_BALL_LAYERNAME);
+            _currentBall.Spawn();
         }
 
         public void DespawnCurrentPlayerBall()
