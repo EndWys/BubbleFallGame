@@ -18,6 +18,8 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
 
         [SerializeField] private BallTweenAnimator _tweenAnimator;
 
+        [SerializeField] private float _fallingJumpPower = 3f   ;
+
         public BallColor Color { get; private set; }
 
         public void Init(BallColor color, Material material)
@@ -46,6 +48,7 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
         {
             EnablePhysics();
             transform.SetParent(null);
+            _rigidbody.AddForce(Vector3.up * _fallingJumpPower, ForceMode.Impulse);
             gameObject.layer = LayerMask.NameToLayer(FALLING_BALL_LAYERNAME);
 
             _tweenAnimator.PlayPreFallAnimation();
@@ -86,6 +89,7 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
         public override void OnReleaseToPool()
         {
             DisablePhysics();
+            transform.SetParent(null);
             gameObject.SetActive(false);
         }
     }
