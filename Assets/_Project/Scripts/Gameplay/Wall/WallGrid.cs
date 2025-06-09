@@ -1,12 +1,11 @@
 using Assets._Project.Scripts.Gameplay.BallLogic;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets._Project.Scripts.Gameplay.Wall
 {
-    public class WallGrid : MonoBehaviour
+    public class WallGrid
     {
         private const string GRID_BALL_LAYERNAME = "GridBall";
         private const string FALLING_BALL_LAYERNAME = "FallingBall";
@@ -23,6 +22,8 @@ namespace Assets._Project.Scripts.Gameplay.Wall
             new(-1, 0), new(0, -1), new(1, -1)
         };
 
+        private Transform _gridRoot;
+
         private float _cellSize;
         private float _height;
         private float _width;
@@ -30,6 +31,11 @@ namespace Assets._Project.Scripts.Gameplay.Wall
         private readonly Dictionary<Vector2Int, Ball> _grid = new();
 
         public int MaxY { get; private set; } = 0;
+
+        public WallGrid(Transform gridRoot)
+        {
+            _gridRoot = gridRoot;
+        }
 
         public void SetGridSize(float cellSize, float height, float width)
         {
@@ -51,7 +57,7 @@ namespace Assets._Project.Scripts.Gameplay.Wall
                 _grid[gridPos] = ball;
 
                 ball.DisablePhysics();
-                ball.transform.SetParent(transform);
+                ball.transform.SetParent(_gridRoot);
                 ball.transform.localPosition = GridToLocal(gridPos);
                 ball.gameObject.layer = LayerMask.NameToLayer(GRID_BALL_LAYERNAME);
 
@@ -103,7 +109,7 @@ namespace Assets._Project.Scripts.Gameplay.Wall
 
         public Vector2Int WorldToGrid(Vector3 position)
         {
-            Vector3 gridRlatedPosition = transform.InverseTransformPoint(position);
+            Vector3 gridRlatedPosition = _gridRoot.InverseTransformPoint(position);
 
             float rowHeight = _cellSize * Mathf.Sqrt(3f) / 2f;
 

@@ -1,4 +1,5 @@
 using Assets._Project.Scripts.Gameplay.BallLogic;
+using Assets._Project.Scripts.ServiceLocatorSystem;
 using UnityEngine;
 
 namespace Assets._Project.Scripts.Gameplay.Player
@@ -15,7 +16,7 @@ namespace Assets._Project.Scripts.Gameplay.Player
             if (collision.collider.TryGetComponent(out Ball wallBall))
             {
                 Ball ball = GetComponent<Ball>();
-                BallCollisionHandler.Instance.HandleBallCollision(ball);
+                ServiceLocator.Local.Get<BallCollisionHandler>().HandleBallCollision(ball);
                 _isHandled = true;
             }
         }

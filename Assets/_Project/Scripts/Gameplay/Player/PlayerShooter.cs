@@ -1,5 +1,6 @@
 using Assets._Project.Scripts.Gameplay.BallLogic;
 using Assets._Project.Scripts.Gameplay.Trajectory;
+using Assets._Project.Scripts.ServiceLocatorSystem;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -11,18 +12,20 @@ namespace Assets._Project.Scripts.Gameplay.Player
         private const string PLAYER_BALL_LAYERNAME = "PlayerBall";
 
         [SerializeField] private Transform _shootPoint;
-        [SerializeField] private BallFactory _ballFactory;
         [SerializeField] private TrajectoryStripDrawer _trajectory;
 
         [SerializeField] private float _shootForce = 15f;
         [SerializeField] private float _shootMaxAngle = 50f;
         [SerializeField] private float _newBallSpawnDelay = 1f;
 
+        private BallFactory _ballFactory;
+
         private Camera _mainCamera;
         private Ball _currentBall;
 
         public void Init()
         {
+            _ballFactory = ServiceLocator.Local.Get<BallFactory>();
             _mainCamera = Camera.main;
         }
 
@@ -33,8 +36,7 @@ namespace Assets._Project.Scripts.Gameplay.Player
 
         private void SpawnNewBall()
         {
-            BallColor color = BallColorService.Instance.GetRandomColor();
-            _currentBall = _ballFactory.SpawnBall(_shootPoint.position, color);
+            _currentBall = _ballFactory.SpawnBall(_shootPoint.position);
             _currentBall.AddComponent<PlayerBallCollisionWatcher>();
 
             _currentBall.gameObject.layer = LayerMask.NameToLayer(PLAYER_BALL_LAYERNAME);

@@ -1,44 +1,34 @@
 using Assets._Project.Scripts.Gameplay.Player;
 using Assets._Project.Scripts.Gameplay.Wall;
+using Assets._Project.Scripts.ServiceLocatorSystem;
 using Assets._Project.Scripts.UI;
-using System.Collections;
-using UnityEngine;
 
 namespace Assets._Project.Scripts.Gameplay.GameManagment
 {
-    public class GameOverHandler : MonoBehaviour
+    public class GameStateHandler : IService
     {
-        public static GameOverHandler Instance { get; private set; }
+        private PlayerShooter _shooter;
+        private WallGenerator _wallGenerator;
+        private WallMover _wallMover;
 
-        [SerializeField] private PlayerShooter _shooter;
-        [SerializeField] private WallGenerator _wallGenerator;
-        [SerializeField] private WallMover _wallMover;
-
-        [SerializeField] private GameOverUIPanel _gameOverUI;
-        [SerializeField] private GameUIPanel _gameUI;
-        [SerializeField] private ReloadUIPanel _reloadUI;
-        
-        [SerializeField] private float _restartDelay = 1f;
+        private IGameOverdUI _gameOverUI;
+        private IGameUI _gameUI;
+        private IReloadUI _reloadUI;
 
         private bool _isGameOver = false;
 
-        private void Awake()
+        public GameStateHandler(PlayerShooter shooter, WallGenerator wallGenerator, WallMover wallMover)
         {
-            if (Instance != null) Destroy(gameObject);
-            Instance = this;
+            _gameOverUI = ServiceLocator.Local.Get<IGameOverdUI>();
+            _gameUI = ServiceLocator.Local.Get<IGameUI>();
+            _reloadUI = ServiceLocator.Local.Get<IReloadUI>();
 
-
-            _gameOverUI.Init();
-            _gameUI.Init();
-            _reloadUI.Init();
-
-
-            _wallGenerator.Init();
-            _wallMover.Init();
-            _shooter.Init();
+            _shooter = shooter;
+            _wallGenerator = wallGenerator;
+            _wallMover = wallMover;
         }
 
-        private void Start()
+        public void StartGame()
         {
             Restart();
         }
@@ -48,14 +38,12 @@ namespace Assets._Project.Scripts.Gameplay.GameManagment
             if (_isGameOver)
                 return;
 
-            Debug.Log("Game Over!");
-
             _isGameOver = true;
             _wallMover.Stop();
 
             _wallGenerator.ClearWall();
             _shooter.DespawnCurrentPlayerBall();
-            // TODO: UI
+            
             await _gameUI.Hide();
             await _gameOverUI.Show();
 
@@ -70,7 +58,7 @@ namespace Assets._Project.Scripts.Gameplay.GameManagment
 
             _isGameOver = false;
 
-            ScoreManager.Instance.ResetScore();
+            ServiceLocator.Local.Get<ScoreManager>().ResetScore();
 
             _wallMover.ResetMover();
             _wallGenerator.CreateNewWall();

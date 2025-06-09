@@ -1,20 +1,14 @@
+using Assets._Project.Scripts.ServiceLocatorSystem;
 using System;
-using UnityEngine;
+
 
 namespace Assets._Project.Scripts.Gameplay.GameManagment
 {
-    public class ScoreManager : MonoBehaviour
+    public class ScoreManager : IService
     {
-        public static ScoreManager Instance { get; private set; }
-
         public int Score { get; private set; }
 
         public event Action<int> OnScoreChange;
-
-        private void Awake()
-        {
-            Instance = this;
-        }
 
         public void ResetScore()
         {

@@ -1,24 +1,29 @@
 using Assets._Project.Scripts.Gameplay.BallLogic;
+using Assets._Project.Scripts.ServiceLocatorSystem;
 using UnityEngine;
 
 namespace Assets._Project.Scripts.Gameplay.Wall
 {
     public class WallGenerator : MonoBehaviour
     {
-        [SerializeField] private BallFactory _ballFactory;
-        [SerializeField] private WallGrid _wallGrid;
-
         [SerializeField] private int _width = 10;  // X
         [SerializeField] private int _height = 15; // Z
         [SerializeField] private float _cellSize = 1f;
 
-        private float _hexHeight = Mathf.Sqrt(3f) / 2f;
+        private BallFactory _ballFactory;
+        private WallGrid _wallGrid;
 
         private int _lastRowIndex = 0;
         private float zPositionOnLastRowGeneration;
 
-        public void Init()
+        private float _hexHeight = Mathf.Sqrt(3f) / 2f;
+
+        public void Init(WallGrid grid)
         {
+            _ballFactory = ServiceLocator.Local.Get<BallFactory>();
+            _wallGrid = grid;
+
+
             _wallGrid.SetGridSize(_cellSize, _height, _width);
         }
 
@@ -62,12 +67,10 @@ namespace Assets._Project.Scripts.Gameplay.Wall
 
             for (int x = 0; x < width; x++)
             {
-                BallColor color = BallColorService.Instance.GetRandomColor();
-
                 float posX = x * _cellSize - offsetX + rowOffsetX;
                 Vector3 position = new Vector3(posX, 0f, posZ);
 
-                Ball ball = _ballFactory.SpawnBall(transform.position + position, color);
+                Ball ball = _ballFactory.SpawnBall(transform.position + position);
                 _wallGrid.AddBall(ball);
             }
         }

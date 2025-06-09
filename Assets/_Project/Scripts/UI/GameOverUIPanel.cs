@@ -1,4 +1,5 @@
 using Assets._Project.Scripts.Gameplay.GameManagment;
+using Assets._Project.Scripts.ServiceLocatorSystem;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System;
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 
 namespace Assets._Project.Scripts.UI
 {
-    public interface IGameOverdUI //: IService
+    public interface IGameOverdUI : IService
     {
         UniTask Show();
         UniTask Hide();
@@ -39,7 +40,7 @@ namespace Assets._Project.Scripts.UI
 
         public void Init()
         {
-            _gameScore = ScoreManager.Instance;
+            _gameScore = ServiceLocator.Local.Get<ScoreManager>();
 
             _panelButton.onClick.AddListener(OnPanelClick);
 
