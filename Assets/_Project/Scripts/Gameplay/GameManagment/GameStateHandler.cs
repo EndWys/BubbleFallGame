@@ -3,6 +3,7 @@ using Assets._Project.Scripts.Gameplay.Wall;
 using Assets._Project.Scripts.ServiceLocatorSystem;
 using Assets._Project.Scripts.UI;
 using Cysharp.Threading.Tasks;
+using System;
 
 namespace Assets._Project.Scripts.Gameplay.GameManagment
 {
@@ -31,7 +32,14 @@ namespace Assets._Project.Scripts.Gameplay.GameManagment
 
         public void StartGame()
         {
-            Restart().Forget();
+            try
+            {
+                Restart().Forget();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
         }
 
         public async UniTask TriggerGameOver()
