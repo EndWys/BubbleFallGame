@@ -1,5 +1,6 @@
 using Assets._Project.Scripts.Gameplay.Player;
 using Assets._Project.Scripts.Gameplay.Wall;
+using Assets._Project.Scripts.UI;
 using System.Collections;
 using UnityEngine;
 
@@ -12,6 +13,10 @@ namespace Assets._Project.Scripts.Gameplay.GameManagment
         [SerializeField] private PlayerShooter _shooter;
         [SerializeField] private WallGenerator _wallGenerator;
         [SerializeField] private WallMover _wallMover;
+
+        [SerializeField] private GameOverUIPanel _gameOverUI;
+        [SerializeField] private GameUIPanel _gameUI;
+        [SerializeField] private ReloadUIPanel _reloadUI;
         
         [SerializeField] private float _restartDelay = 1f;
 
@@ -21,6 +26,12 @@ namespace Assets._Project.Scripts.Gameplay.GameManagment
         {
             if (Instance != null) Destroy(gameObject);
             Instance = this;
+
+
+            _gameOverUI.Init();
+            _gameUI.Init();
+            _reloadUI.Init();
+
 
             _wallGenerator.Init();
             _wallMover.Init();
@@ -32,7 +43,7 @@ namespace Assets._Project.Scripts.Gameplay.GameManagment
             Restart();
         }
 
-        public void TriggerGameOver()
+        public async void TriggerGameOver()
         {
             if (_isGameOver)
                 return;
@@ -45,18 +56,18 @@ namespace Assets._Project.Scripts.Gameplay.GameManagment
             _wallGenerator.ClearWall();
             _shooter.DespawnCurrentPlayerBall();
             // TODO: UI
+            await _gameUI.Hide();
+            await _gameOverUI.Show();
 
-            StartCoroutine(RestartCoroutine());
-        }
-
-        private IEnumerator RestartCoroutine()
-        {
-            yield return new WaitForSeconds(_restartDelay);
             Restart();
         }
 
-        private void Restart()
+        private async void Restart()
         {
+            await _reloadUI.Show();
+            await _gameOverUI.Hide();
+            await _gameUI.Show();
+
             _isGameOver = false;
 
             ScoreManager.Instance.ResetScore();
@@ -65,6 +76,7 @@ namespace Assets._Project.Scripts.Gameplay.GameManagment
             _wallGenerator.CreateNewWall();
             _shooter.RespawnPlayerBall();
 
+            await _reloadUI.Hide();
         }
     }
 }

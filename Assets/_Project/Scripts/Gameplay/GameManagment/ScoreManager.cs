@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Assets._Project.Scripts.Gameplay.GameManagment
@@ -8,6 +9,8 @@ namespace Assets._Project.Scripts.Gameplay.GameManagment
 
         public int Score { get; private set; }
 
+        public event Action<int> OnScoreChange;
+
         private void Awake()
         {
             Instance = this;
@@ -16,13 +19,13 @@ namespace Assets._Project.Scripts.Gameplay.GameManagment
         public void ResetScore()
         {
             Score = 0;
-            Debug.Log($"Score: {Score}");
+            OnScoreChange?.Invoke(Score);
         }
 
         public void AddPoints(int amount)
         {
             Score += amount;
-            Debug.Log($"Score: {Score}");
+            OnScoreChange?.Invoke(Score);
         }
     }
 }
