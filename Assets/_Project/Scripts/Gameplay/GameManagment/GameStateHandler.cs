@@ -2,6 +2,7 @@ using Assets._Project.Scripts.Gameplay.Player;
 using Assets._Project.Scripts.Gameplay.Wall;
 using Assets._Project.Scripts.ServiceLocatorSystem;
 using Assets._Project.Scripts.UI;
+using Cysharp.Threading.Tasks;
 
 namespace Assets._Project.Scripts.Gameplay.GameManagment
 {
@@ -30,10 +31,10 @@ namespace Assets._Project.Scripts.Gameplay.GameManagment
 
         public void StartGame()
         {
-            Restart();
+            Restart().Forget();
         }
 
-        public async void TriggerGameOver()
+        public async UniTask TriggerGameOver()
         {
             if (_isGameOver)
                 return;
@@ -47,10 +48,10 @@ namespace Assets._Project.Scripts.Gameplay.GameManagment
             await _gameUI.Hide();
             await _gameOverUI.Show();
 
-            Restart();
+            await Restart();
         }
 
-        private async void Restart()
+        private async UniTask Restart()
         {
             await _reloadUI.Show();
             await _gameOverUI.Hide();

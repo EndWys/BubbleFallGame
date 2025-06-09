@@ -762,7 +762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serviceLocatorLoader: {fileID: 1519574811}
-  _despawnTrigger: {fileID: 0}
+  _despawnTrigger: {fileID: 247884821}
 --- !u!4 &372129853
 Transform:
   m_ObjectHideFlags: 0

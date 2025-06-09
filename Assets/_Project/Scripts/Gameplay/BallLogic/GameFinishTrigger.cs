@@ -8,6 +8,8 @@ public class GameFinishTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out Ball ball))
+        {
             ServiceLocator.Local.Get<GameStateHandler>().TriggerGameOver();
+        }
     }
 }
