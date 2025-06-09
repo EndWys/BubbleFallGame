@@ -10,6 +10,7 @@ namespace Assets._Project.Scripts.GameInput
 
         private bool _isAiming;
         private bool _isShooting;
+        private Vector3 _lastTouchWorldPosition;
 
         public MobileShootInput(Transform shootPoint, float maxAngle)
         {
@@ -19,12 +20,21 @@ namespace Assets._Project.Scripts.GameInput
         }
 
         public bool IsAiming => _isAiming;
-        public bool IsShooting => _isShooting;
+        public bool IsShooting
+        {
+            get
+            {
+                bool result = _isShooting;
+                _isShooting = false;
+                return result;
+            }
+        }
 
         public Vector3 GetShootDirection()
         {
-            Vector3 touchWorld = GetTouchWorldPositionOnPlane();
-            Vector3 direction = touchWorld - _shootPoint.position;
+            UpdateTouch();
+
+            Vector3 direction = _lastTouchWorldPosition - _shootPoint.position;
             direction.y = 0f;
 
             float angle = Vector3.SignedAngle(Vector3.forward, direction, Vector3.up);
@@ -33,10 +43,12 @@ namespace Assets._Project.Scripts.GameInput
             return Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
         }
 
-        private Vector3 GetTouchWorldPositionOnPlane()
+        private void UpdateTouch()
         {
+            _isAiming = false;
+
             if (Input.touchCount == 0)
-                return _shootPoint.position + Vector3.forward;
+                return;
 
             Touch touch = Input.GetTouch(0);
             Vector3 screenPosition = touch.position;
@@ -46,14 +58,17 @@ namespace Assets._Project.Scripts.GameInput
 
             if (plane.Raycast(ray, out float enter))
             {
-                _isAiming = touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary;
-                _isShooting = touch.phase == TouchPhase.Ended;
-                return ray.GetPoint(enter);
-            }
+                _lastTouchWorldPosition = ray.GetPoint(enter);
 
-            _isAiming = false;
-            _isShooting = false;
-            return _shootPoint.position + Vector3.forward;
+                if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
+                {
+                    _isAiming = true;
+                }
+                else if (touch.phase == TouchPhase.Ended)
+                {
+                    _isShooting = true;
+                }
+            }
         }
     }
 }
