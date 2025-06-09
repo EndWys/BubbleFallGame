@@ -1,6 +1,7 @@
 using Assets._Project.Scripts.Gameplay.GameManagment;
 using Assets._Project.Scripts.Gameplay.Wall;
 using Assets._Project.Scripts.ServiceLocatorSystem;
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace Assets._Project.Scripts.Gameplay.BallLogic
@@ -48,7 +49,9 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
             foreach (var ball in balls)
             {
                 _wallGrid.RemoveBall(ball);
-                _ballFactory.DespawnBall(ball);
+
+                ball.Pop().ContinueWith(() => _ballFactory.DespawnBall(ball)).Forget();
+
                 _gameScore.AddPoints(_scoreForBall);
             }
         }
@@ -58,7 +61,8 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
             foreach (var ball in balls)
             {
                 _wallGrid.RemoveBall(ball);
-                ball.EnablePhysics();
+                ball.StartFalling();
+
                 _gameScore.AddPoints(_scoreForBall);
             }
         }
