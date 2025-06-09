@@ -50,6 +50,7 @@ MonoBehaviour:
   _meshRenderer: {fileID: 178617303051721986}
   _rigidbody: {fileID: 1391674573805515033}
   _tweenAnimator: {fileID: 2621326356509363650}
+  _fallingJumpPower: 5
 --- !u!135 &6151433576052519188
 SphereCollider:
   m_ObjectHideFlags: 0

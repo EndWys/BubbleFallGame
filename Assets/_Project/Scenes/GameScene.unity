@@ -466,7 +466,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 50, y: 1, z: 160}
+  m_Size: {x: 200, y: 1, z: 300}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &247884820
 Transform:
@@ -2662,7 +2662,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 1.1
   m_Height: 6
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
