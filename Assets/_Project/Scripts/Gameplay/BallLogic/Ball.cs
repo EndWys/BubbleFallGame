@@ -18,7 +18,7 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
 
         [SerializeField] private BallTweenAnimator _tweenAnimator;
 
-        [SerializeField] private float _fallingJumpPower = 3f;
+        [SerializeField] private float _fallingJumpPower = 3f   ;
 
         public BallColor Color { get; private set; }
 
