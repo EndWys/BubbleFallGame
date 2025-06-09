@@ -1,30 +1,31 @@
 using Assets._Project.Scripts.Gameplay.GameManagment;
 using Assets._Project.Scripts.Gameplay.Wall;
+using Assets._Project.Scripts.ServiceLocatorSystem;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Assets._Project.Scripts.Gameplay.BallLogic
 {
-    public class BallCollisionHandler : MonoBehaviour
+    public class BallCollisionHandler : IService
     {
-        public static BallCollisionHandler Instance { get; private set; }
+        private ScoreManager _gameScore;
 
-        [SerializeField] private BallFactory _ballFactory;
-        [SerializeField] private WallGrid _wallGrid;
-        [SerializeField] private int _ballsCountForPop = 3;
-        [SerializeField] private int _scoreForBall = 10;
-
+        private BallFactory _ballFactory;
+        private WallGrid _wallGrid;
         private BallMatchDetector _matchDetector;
         private FloatingBallFinder _floatingBallFinder;
 
+        private int _ballsCountForPop = 3;
+        private int _scoreForBall = 10;
 
-        private void Awake()
+        public BallCollisionHandler(WallGrid grid)
         {
+            _wallGrid = grid;
+
+            _ballFactory = ServiceLocator.Local.Get<BallFactory>();
+            _gameScore = ServiceLocator.Local.Get<ScoreManager>();
+
             _matchDetector = new BallMatchDetector(_wallGrid);
             _floatingBallFinder = new FloatingBallFinder(_wallGrid);
-
-            if (Instance != null) Destroy(gameObject);
-            Instance = this;
         }
 
         public void HandleBallCollision(Ball playerBall)
@@ -48,7 +49,7 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
             {
                 _wallGrid.RemoveBall(ball);
                 _ballFactory.DespawnBall(ball);
-                ScoreManager.Instance.AddPoints(_scoreForBall);
+                _gameScore.AddPoints(_scoreForBall);
             }
         }
 
@@ -58,7 +59,7 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
             {
                 _wallGrid.RemoveBall(ball);
                 ball.EnablePhysics();
-                ScoreManager.Instance.AddPoints(_scoreForBall);
+                _gameScore.AddPoints(_scoreForBall);
             }
         }
     }

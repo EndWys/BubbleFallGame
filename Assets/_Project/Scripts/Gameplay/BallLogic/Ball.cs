@@ -1,4 +1,5 @@
 using Assets._Project.Scripts.ObjectPoolSytem;
+using Assets._Project.Scripts.ServiceLocatorSystem;
 using UnityEngine;
 
 namespace Assets._Project.Scripts.Gameplay.BallLogic
@@ -11,10 +12,10 @@ namespace Assets._Project.Scripts.Gameplay.BallLogic
 
         public BallColor Color { get; private set; }
 
-        public void Init(BallColor color)
+        public void Init(BallColor color, Material material)
         {
             Color = color;
-            _meshRenderer.material = BallColorService.Instance.GetMaterialForColor(color);
+            _meshRenderer.material = material;
         }
 
         public void EnablePhysics()

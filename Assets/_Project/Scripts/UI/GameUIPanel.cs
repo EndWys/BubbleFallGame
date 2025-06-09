@@ -1,4 +1,5 @@
 using Assets._Project.Scripts.Gameplay.GameManagment;
+using Assets._Project.Scripts.ServiceLocatorSystem;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System.Threading;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Assets._Project.Scripts.UI
 {
-    public interface IGameUI //: IService
+    public interface IGameUI : IService
     {
         UniTask Show();
         UniTask Hide();
@@ -31,7 +32,7 @@ namespace Assets._Project.Scripts.UI
         {
             _cancellationToken = gameObject.GetCancellationTokenOnDestroy();
 
-            _gameScore = ScoreManager.Instance;
+            _gameScore = ServiceLocator.Local.Get<ScoreManager>();
         }
 
         public override async UniTask Show()

@@ -1,3 +1,4 @@
+using Assets._Project.Scripts.ServiceLocatorSystem;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace Assets._Project.Scripts.UI
 {
-    public interface IReloadUI //: IService
+    public interface IReloadUI : IService
     {
         UniTask Show();
         UniTask Hide();

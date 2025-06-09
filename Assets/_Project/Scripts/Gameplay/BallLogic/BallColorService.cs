@@ -1,20 +1,13 @@
+using Assets._Project.Scripts.ServiceLocatorSystem;
 using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Assets._Project.Scripts.Gameplay.BallLogic
 {
-    public class BallColorService : MonoBehaviour
+    public class BallColorService : MonoBehaviour, IService
     {
-        public static BallColorService Instance { get; private set; }
-
         [SerializeField] private BallColorMaterial[] _colorMaterials;
-
-        private void Awake()
-        {
-            if (Instance != null) Destroy(gameObject);
-            Instance = this;
-        }
 
         public BallColor GetRandomColor()
         {

@@ -1,4 +1,3 @@
-using Assets._Project.Scripts.Gameplay.GameManagment;
 using UnityEngine;
 
 namespace Assets._Project.Scripts.Gameplay.Wall
